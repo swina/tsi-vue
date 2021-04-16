@@ -1,0 +1,704 @@
+@tailwind base;
+
+@tailwind components;
+
+body {
+    font-family: 'Asap Condensed', sans-serif;
+    font-size:1.2rem;
+    @apply leading-6 overflow-x-hidden;
+}
+
+h1 {
+    @apply text-5xl leading-normal;
+}
+
+h2 {
+    @apply text-4xl leading-normal;
+}
+
+h3 {
+    @apply text-3xl leading-normal;
+}
+
+h4 {
+    @apply text-2xl leading-normal;
+}
+
+h5 {
+    @apply text-2xl leading-normal;
+}
+
+a { 
+    @apply text-blue-500;
+}
+
+
+blockquote , q {
+    @apply bg-gray-200 p-4 border-l-4 w-full my-4 border-gray-400;
+}
+
+ul {
+    @apply ml-10 my-2;
+}
+ul > li {
+    @apply list-disc;
+}
+
+p {
+    font-weight:400;
+}
+
+p.nuxpresso-box-multiline {
+    @apply my-1;
+}
+
+p > pre {
+  @apply bg-transparent text-base;
+}
+
+button {
+    @apply bg-gray-700 text-white text-sm leading-4 px-2 py-1 border border-transparent rounded-none outline-none;
+    width: fit-content;
+}
+
+button:focus {
+  @apply outline-none;
+}
+
+button:hover {
+    @apply bg-white text-black border-gray-300;
+}
+
+button.xs {
+    @apply px-2 py-1 text-xs;
+}
+
+button.sm {
+    @apply px-2 py-1 text-sm;
+}
+
+button.round {
+  @apply rounded-full w-20;
+}
+
+button.success {
+    @apply bg-green-400;
+}
+
+
+button.warning {
+    @apply bg-yellow-500;
+}
+
+button.danger {
+    @apply bg-red-600;
+}
+
+button.light {
+  @apply bg-white text-gray-600 border border-gray-600;
+}
+
+button.light:hover {
+  @apply bg-gray-700 text-white;
+}
+
+button.menubar__button {
+  @apply bg-transparent text-black h-8 w-8 px-2 py-1;
+}
+
+button.menubar__button:hover {
+  @apply bg-transparent text-black border-0;
+}
+
+/*mr-2 mt-1 capitalize w-24 border hover:bg-blue-400 hover:text-white border-blue-400 focus:bg-gray-600 focus:text-white focus:outline-none bg-white text-blue-400 rounded-none*/
+
+button .fixed {
+  @apply w-24;
+}
+
+form {
+    @apply p-2;
+}
+
+label {
+  @apply px-1;
+}
+
+input[type=text] , input[type=number] , input[type=email] ,  textarea , select {
+    @apply p-1 border text-sm py-1 pl-1 mb-1 w-full;
+   
+    line-height:1rem;
+}
+
+
+input[type=text]:focus , input[type=email]:focus ,input[type=number]:focus , select:focus {
+  @apply border-0 ring-2 ring-lime-500 outline-none shadow-lg
+}
+
+textarea:focus {
+    @apply shadow-lg border border-blue-500 outline-none;
+}
+
+input.dark , select.dark , textarea.dark{
+    @apply bg-black border-0;
+}
+
+
+input[type=range] {
+    background-color: transparent;
+    -webkit-appearance: none;
+    outline: none;
+    border:0;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    background: #1b1b1b;
+    border: 0.3px solid #616161;
+    border-radius: 1.3px;
+    height: 1.5px;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -7.05px;
+    width: 16px;
+    height: 16px;
+    background: #b4b4b4;
+    border: 1px solid #5f5f5f;
+    border-radius: 50px;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ffffff;
+  }
+  input[type=range]::-moz-range-track {
+    background: #ffffff;
+    border: 0.3px solid #e3e2e0;
+    border-radius: 1.3px;
+    width: 100%;
+    height: 2.5px;
+    cursor: pointer;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: 7.75px 0;
+    color: transparent;
+    width: 100%;
+    height: 1.5px;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #f2f2f2;
+    border: 0.3px solid #e3e2e0;
+    border-radius: 2.6px;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #ffffff;
+    border: 0.3px solid #e3e2e0;
+    border-radius: 2.6px;
+  }
+  input[type=range]::-ms-thumb {
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 0px;
+    /*Needed to keep the Edge thumb centred*/
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #ffffff;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #ffffff;
+  }
+  /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
+  how to remove the virtical space around the range input in IE*/
+  @supports (-ms-ime-align:auto) {
+    /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
+    input[type=range] {
+      margin: 0;
+      /*Edge starts the margin from the thumb, not the track as other browsers do*/
+    }
+  }
+  
+
+input.xs {
+    @apply text-xs p-1 text-gray-700;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+    margin: .3rem;
+}
+
+input.customize {
+    @apply text-xs p-0 text-gray-700;
+}
+
+pre {
+    @apply w-full overflow-auto bg-gray-200 text-xs p-2 my-2 border border-gray-400;
+}
+
+
+
+
+
+
+@tailwind utilities;
+
+@layer utilities {
+  
+.modal {
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  position:fixed;
+}
+
+.modal-bottom {
+bottom:0;
+left:50%;
+transform: translateX(-50%);
+position: fixed;  
+}
+
+.modal-top {
+top:0;
+left:50%;
+transform: translateX(-50%);
+position: fixed;  
+}
+
+.modal-top-left {
+top:0;
+left:0;
+position: fixed;  
+}
+
+.modal-top-right {
+top:0;
+right:0;
+position: fixed;  
+}
+
+.modal-bottom-left {
+bottom:0;
+left:0;
+position: fixed;  
+}
+
+.editor-context-menu {
+@apply opacity-0 z-highest cursor-pointer z-highest absolute bg-gray-800 text-gray-500 text-sm border border-gray-900 top-0 left-0 shadow-lg;
+}
+
+.editor-context-menu-item {
+@apply p-1 pr-8 flex flex-row items-center border-l-4 border-transparent; 
+}
+
+
+.editor-context-menu-item:hover {
+@apply bg-gray-900 text-lime-500 border-lime-400;
+}
+
+
+.preview-context-menu {
+@apply opacity-0 cursor-pointer z-highest absolute bg-gray-800 text-gray-500 text-sm border border-gray-900 shadow-lg
+}
+
+.preview-context-menu-item {
+@apply p-1 flex flex-row items-center pr-16;
+}
+
+.preview-context-menu-item:hover {
+@apply bg-white text-black;
+}
+
+.modal-bottom-right {
+bottom:0;
+right:0;
+position: fixed;  
+}
+
+.nuxpresso-modal {
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  position:fixed;
+  @apply bg-white shadow-lg w-auto border rounded;
+}
+
+.nuxpresso-modal-lg {
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  position:fixed;
+  width:65%;
+  @apply bg-white shadow-lg;
+}
+
+.nuxpresso-modal-wide {
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  position:fixed;
+  width:85%;
+  @apply bg-white shadow-lg;
+}
+
+.nuxpresso-slider-dots {
+  @apply bg-opacity-75 w-3 h-3 bg-white border border-black shadow-lg rounded-full mx-1 cursor-pointer;
+}
+
+.nuxpresso-slider-dot-active {
+  @apply bg-black;
+}
+
+.nuxpresso-icon-btn {
+  @apply rounded bg-white text-white p-1 cursor-pointer border text-base;
+}
+
+.nuxpresso-icon-btn:hover {
+  @apply bg-blue-300
+}
+
+.nuxpresso-icon-circle {
+  @apply bg-gray-800 text-gray-600 rounded-full cursor-pointer text-base p-1;
+}
+
+
+
+.nuxpresso-icon-circle:hover {
+  @apply  bg-blue-300 text-gray-800;
+}
+
+.moka-icon-circle {
+@apply bg-gray-500 text-gray-600 rounded-full cursor-pointer text-sm p-1;
+}
+
+
+.moka-icon-circle:hover {
+@apply  bg-white text-gray-800;
+}
+
+
+
+.next-enter { opacity: 0; transform: scale3d(2, 0.5, 1) translate3d(400px, 0, 0); }
+.next-enter-to { transform: scale3d(1, 1, 1); }
+.next-enter-active,
+.next-leave-active { transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.next-leave { transform: scale3d(1, 1, 1); }
+.next-leave-to { opacity: 0; transform: scale3d(2, 0.5, 1) translate3d(-400px, 0, 0); }
+
+/* prefixed with "prev" so the prev button easily changes to this block of CSS */
+.prev-enter { opacity: 0; transform: scale3d(2, 0.5, 1) translate3d(-400px, 0, 0); }
+.prev-enter-to { transform: scale3d(1, 1, 1); }
+.prev-enter-active,
+.prev-leave-active { transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.prev-leave { transform: scale3d(1, 1, 1); }
+.prev-leave-to { opacity: 0; transform: scale3d(2, 0.5, 1) translate3d(400px, 0, 0); }
+
+/* if animations are reduced at the OS level, use simpler transitions */
+@media screen and (prefers-reduced-motion: reduce) {
+.next-enter { opacity: 0; transform: translate3d(100px, 0, 0); }
+.next-enter-active,
+.next-leave-active { transition: 0.5s; }
+.next-leave-to { opacity: 0; transform: translate3d(-100px, 0, 0); }
+
+.prev-enter { opacity: 0; transform: translate3d(-100px, 0, 0); }
+.prev-enter-active,
+.prev-leave-active { transition: 0.5s; }
+.prev-leave-to { opacity: 0; transform: translate3d(100px, 0, 0); }
+}
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .7s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.height-enter-active , .height-leave-active {
+transition: all .5s linear;
+height:auto;
+}
+
+.height-enter , .height-leave-to {
+transition: all .5s linear;
+height:0;
+}
+
+.width-enter-active , .width-leave-active {
+transition: all .5s linear;
+width:100%;
+}
+
+.width-enter , .width-leave-to {
+transition: all .5s linear;
+width:0;
+}
+
+.slideleft-enter-active {
+  transition: transform .8s ease-in-out;
+}
+
+.slideleft-leave-active {
+  transition: transform .8s ease-in-out;
+}
+
+.slideleft-enter-to, .slideleft-leave {
+  transform: translate(0%, 0);
+  overflow: hidden;
+}
+
+.slideleft-enter, .slideleft-leave-to {
+  transform: translate(-100%, 0);
+  margin-right: 0;
+}
+
+/*----------------------------*/
+
+/*---------------------------*/
+
+.slider-enter-active {
+transition: all .8s linear;
+}
+
+.slider-leave-active {
+transition: all .8s linear;
+}
+
+.slider-enter-to, .slide-leave {
+opacity:1;
+transform: translate(0%, 0);
+overflow: hidden;
+}
+
+.slider-enter {
+opacity:0;
+transform: translate(100%, 0);
+margin-right: 0;
+}
+
+.slider-leave-to {
+transform: translateX(-100%);
+margin-right:0;
+}
+
+.slideright-enter-active {
+ transition: transform .8s ease-in-out;
+}
+
+.slideright-leave-active {
+ transition: transform .8s ease-in-out;
+}
+
+.slideright-enter-to, .slideright-leave {
+ transform: translate(0%, 0);
+ overflow: hidden;
+}
+
+.slideright-enter, .slideright-leave-to {
+ transform: translate(100%, 0);
+ margin-right: 0;
+}
+
+.slidedown-enter-active , .slidedown-leave-active {
+  transition: transform .5s ease-in-out;
+  transform: translateY(0%);
+  opacity:1;
+}
+
+.slidedown-enter , .slidedown-leave-to {
+  transform: translateY(-100%);
+  opacity:1;
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.moka-editor-selector-block {
+  @apply text-xs border border-green-400 border-dashed opacity-0 absolute left-0 right-0 bottom-0;
+  transform: scale(1.03,1.07);
+  top:-1rem;
+  padding-bottom:3rem;
+  
+}  
+
+.moka-editor-selector-block:hover {
+  @apply opacity-100;
+}
+
+.moka-editor-selector {
+  @apply text-xs border border-red-500 border-dashed opacity-0 absolute top-0 left-0 right-0 bottom-0;
+}
+
+.moka-editor-selector:hover {
+  @apply opacity-100;
+}
+
+
+.moka-editor-active {
+  @apply border border-red-500 border-double opacity-100;
+}
+
+.moka-editor-tag {
+  @apply absolute top-0 left-0 -mt-6;
+}
+
+.moka-left-drawer {
+  @apply fixed top-0 left-0 w-1/5 h-screen;
+}
+.moka-editor {
+  @apply border border-transparent border-dashed cursor-pointer absolute top-0 right-0 bottom-0 left-0;   
+}
+
+.moka-editor.moka-block:hover {
+  @apply border-green-300;
+}
+
+.moka-element:hover {
+  @apply border-gray-500
+}
+    /*
+  DESKTOP classes
+  */
+  .desktop {
+    @apply flex flex-col items-center h-screen bg-gray-300;
+  }
+
+  .desktop-logo {
+    @apply text-4xl w-32 m-auto h-32 bg-gray-200 rounded-full flex flex-col text-gray-400 font-black cursor-pointer;
+  }
+
+  .desktop > div {
+    @apply m-auto text-center font-thin;
+  }
+
+  .desktop-nav {
+    @apply fixed top-0 z-2xtop left-0 bg-gray-800 text-gray-500 flex flex-col justify-start h-screen items-start cursor-pointer text-base;
+  }
+
+  .desktop-nav > div {
+    @apply w-full p-1 pl-1 py-2 flex flex-row items-center my-2 mr-4 border-l-4 border-transparent;
+  }
+
+  .desktop-nav > div:hover {
+    @apply bg-gray-900 text-gray-300 border-yellow-500; 
+  }
+
+  .desktop-nav-submenu {
+    @apply absolute w-48 ml-1 -mt-4 z-2xtop bg-gray-800 text-gray-500 shadow flex flex-col border-l border-gray-900;
+  }
+
+  .desktop-nav-submenu > div {
+    @apply border-l-4 border-transparent px-4 py-1
+  }
+  .desktop-nav-submenu > div:hover {
+    @apply border-yellow-500 text-white bg-gray-700;
+  }
+
+  .desktop-tabs {
+    @apply ml-10 sticky top-0 h-8 border-b border-black z-2xtop w-full bg-gray-700 border-b text-sm flex flex-row flex-wrap cursor-pointer;
+  }
+
+  .desktop-tab {
+    @apply border-l border-gray-700 h-8 py-1 bg-gray-800 text-gray-300 px-1 flex flex-row justify-around items-center text-sm;
+  }
+  .desktop-tab-point {
+    @apply border-r border-gray-700 absolute top-0 right-0 h-2 w-2 bg-gray-700 rounded-tl-lg;
+  }
+
+  .desktop-tab > span {
+    @apply flex flex-row items-center
+  }
+
+  .desktop-tab:hover {
+    @apply bg-gray-900 text-white; 
+  }
+
+  .desktop-tab-close {
+    @apply text-xs text-gray-200 ml-6 opacity-0; 
+  }
+
+  .desktop-tab-close:hover {
+    @apply opacity-100;
+  }
+
+  .desktop-container {
+    @apply flex flex-col  w-full min-h-screen overflow-y-auto;
+  }
+
+  .desktop-container > div {
+    @apply relative top-0 bottom-0 right-0 left-0 w-10/12 mx-auto pt-2;
+  }
+
+  .grayscale {
+    filter: grayscale(1)
+  }
+ 
+  @variants responsive {
+    .perspective-rotate3dY {
+      transform:perspective(80vw) rotateY(28deg);
+    }
+    .perspective-rotate3dY-inverse {
+      transform:perspective(80vw) rotateY(-28deg);
+    }
+    
+    .perspective-rotate3dX {
+      transform: perspective(80vh) rotateX(45deg);
+    }
+    .perspective-rotate3dX-inverse {
+      transform:perspective(80vw) rotateX(-45deg);
+    }
+
+
+
+  }
+}
