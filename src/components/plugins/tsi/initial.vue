@@ -2,7 +2,7 @@
 <div>
     <div class="p-4 m-auto md:w-48" v-if="!survey">
         <h4>Codice Accesso</h4>
-        <input type="text" class="w-full text-3xl h-12" v-model="survey_key" style="font-size:2rem"/><button @click="start">Procedi</button>
+        <input type="text" class="w-full text-3xl h-12 md:w-48" v-model="survey_key" style="font-size:2rem"/><button @click="start" class="text-xl md:w-48 mx-auto">Procedi</button>
         
     </div>
     <v-survey v-if="survey"/>
