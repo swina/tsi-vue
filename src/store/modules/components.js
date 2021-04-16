@@ -21,7 +21,7 @@ const moka = {
         icons: icons.icons,
         selected: null,
         current: null,
-        fonts: process.env.VUE_APP_FONT_FAMILIES.split('|'),
+        fonts: null,
         slide: 0,
         popup: '',
         blocks: null,
