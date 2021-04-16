@@ -18,7 +18,7 @@ export default {
     name: 'TSISurvey',
     components: { TsiPerson , TsiSurveyModule },
     data:()=>({
-        status: 'intro'
+        status: 'person'
     }),
     computed:{
         survey(){
