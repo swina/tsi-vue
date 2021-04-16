@@ -80,7 +80,8 @@ export default {
     },
     methods:{
         simulator(id){
-            return null
+            let route = this.$router.resolve({ path: "/survey" });
+            var w = window.open(route.href, "tsi",'width=' + window.screen.availWidth );
         },
         save(){
             this.$api.service('surveys').patch ( this.record._id , this.record ).then ( res=> {
