@@ -649,18 +649,15 @@ margin-right:0;
   }
 
   .desktop-tab {
-    @apply border-l border-gray-700 h-8 py-1 bg-gray-800 text-gray-300 px-1 flex flex-row justify-around items-center text-sm;
+    @apply border-l border-gray-700 h-8 py-1 text-gray-300 px-1 flex flex-row justify-around items-center text-sm;
   }
-  .desktop-tab-point {
-    @apply border-r border-gray-700 absolute top-0 right-0 h-2 w-2 bg-gray-700 rounded-tl-lg;
-  }
-
+  
   .desktop-tab > span {
     @apply flex flex-row items-center
   }
 
   .desktop-tab:hover {
-    @apply bg-gray-900 text-white; 
+    @apply bg-red-600 text-white; 
   }
 
   .desktop-tab-close {

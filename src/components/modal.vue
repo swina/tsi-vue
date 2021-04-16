@@ -1,7 +1,7 @@
 <template>
     <div ref="draggableContainer" id="draggable-container" :class="'bg-white z-highest max-h-screen max-w-screen shadow-lg rounded text-sm overflow-hidden ' + size + height + ' ' + position"  style="resize:both;">
         
-        <div class="absolute z-highest top-0 right-0 h-8 px-2 flex flex-row items-center text-gray-400 text-xls" >
+        <div class="absolute z-highest top-0 right-0 h-8 px-2 flex flex-row items-center text-gray-400 text-xl cursor-pointer" >
             <i class="material-icons" @click="$emit('close')">close</i>
         </div>
         <div id="draggable-header"  class="cursor-move w-full bg-gray-800 text-white  rounded-tl  rounded-tr px-2 py-1"  @mousedown="dragMouseDown">

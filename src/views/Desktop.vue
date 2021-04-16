@@ -38,7 +38,7 @@
                             <i v-if="tab.icon" class="material-icons text-sm mr-1 text-orange-500">{{tab.icon}}</i> {{ tab.name }}
                         </span> 
                         <i class="desktop-tab-close material-icons" @click="removeTab(index)">close</i>
-                        <div class="desktop-tab-point"></div>
+                        
                     </div> 
                         
                 </template>
@@ -102,7 +102,7 @@ export default {
     },
     methods:{
         active(index){
-            return index === this.desktop.currentTab ? 'bg-blue-500 text-white' : ''
+            return index === this.desktop.currentTab ? ' bg-blue-500 text-white ' : ' bg-gray-700 text-gray-100 '
         },
         activeTab(index){
 
@@ -116,6 +116,7 @@ export default {
             if ( !item.path ) return
             if ( item.path === '/' ) {
                 this.$router.push ( '/' ) 
+                return
             }
             let compName = item.path
             this.$store.dispatch ( 'filter' , item.filter )
