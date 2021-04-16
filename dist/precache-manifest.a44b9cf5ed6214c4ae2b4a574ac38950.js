@@ -4,16 +4,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/.htaccess"
   },
   {
-    "revision": "4669ef8321ab60457731",
-    "url": "/css/app.fe6cee23.css"
+    "revision": "2528d027873b49b8eced",
+    "url": "/css/app.87285de6.css"
   },
   {
-    "revision": "497ad95ccde9be27f5f4",
-    "url": "/css/chunk-3200ea28.dbe6c7a4.css"
-  },
-  {
-    "revision": "c248ee81e456f1eaa1169eb72ab5dbc3",
-    "url": "/favicon-nuxpresso.ico"
+    "revision": "e1671090c3a0b29a837e",
+    "url": "/css/chunk-3200ea28.feef038c.css"
   },
   {
     "revision": "a1bcce16c894ee21609d61017aab9684",
@@ -136,12 +132,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/webdesign-first-impression.jpg"
   },
   {
-    "revision": "3b92fe5eacc565b7ad254a5e23f896d8",
+    "revision": "0fadbab3444426a35c60ad4d3862049c",
     "url": "/index.html"
   },
   {
-    "revision": "4669ef8321ab60457731",
-    "url": "/js/app.8e50e8d8.js"
+    "revision": "2528d027873b49b8eced",
+    "url": "/js/app.4b8ffa35.js"
   },
   {
     "revision": "aef69c3d5d76fb4032e2",
@@ -196,8 +192,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/chunk-2d2167ca.2630821b.js"
   },
   {
-    "revision": "0a799a2e03e119a56af4",
-    "url": "/js/chunk-2d222424.b2b7d9b0.js"
+    "revision": "79f557a2b5b90b291783",
+    "url": "/js/chunk-2d222424.c0852978.js"
   },
   {
     "revision": "986b2d1c541083ca2f7b",
@@ -208,7 +204,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/chunk-2d237727.d1834355.js"
   },
   {
-    "revision": "497ad95ccde9be27f5f4",
+    "revision": "e1671090c3a0b29a837e",
     "url": "/js/chunk-3200ea28.d6fc6f53.js"
   },
   {
@@ -216,8 +212,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/chunk-34c6eaf8.9eee1088.js"
   },
   {
-    "revision": "748468bd134c3e29bcf0",
-    "url": "/js/chunk-6a732bf9.88992d0b.js"
+    "revision": "511c22021e961d5e4b6b",
+    "url": "/js/chunk-6a732bf9.4f57eaaf.js"
   },
   {
     "revision": "c096e29dda8a2c06a95b",
@@ -236,16 +232,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/manifest.json"
   },
   {
-    "revision": "2607be60c89d8528c63ace9a45fb78f6",
-    "url": "/preload.js"
-  },
-  {
     "revision": "735ab4f94fbcd57074377afca324c813",
     "url": "/robots.txt"
-  },
-  {
-    "revision": "d1fa6248d60ae40f4ceb781d0c4f7451",
-    "url": "/sticasa-car-stickers.json"
   },
   {
     "revision": "ccc5e084e8f453d8f99578491c690e93",

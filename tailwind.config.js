@@ -1,12 +1,7 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  mode: 'jit',
-  // These paths are just examples, customize them to match your project structure
-  purge: [
-    './public/**/*.html',
-    './src/**/*.{js,vue}',
-  ],
+  purge: [],
   theme: {
     fontFamily: {
       display: ['Barlow Condensed','sans-serif'],

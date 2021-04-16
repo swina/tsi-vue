@@ -1,13 +1,13 @@
 <template>
     <div class="text-sm w-full m-auto border shadow">
-        <div :class="'bg-gray-300 p-2 pb-1 items-center justify-center grid grid-cols-' + (cols+1)">
+        <div class="'bg-gray-300 p-2 pb-1 items-center justify-center grid grid-cols-6">
             <template v-for="field in fields">
                 <div v-if="field!='_id' && schema[field].list" class="font-bold capitalize">{{ field  }}</div>
             </template>
             <div class=""></div>
         </div>
         <template v-for="survey in datastore.dataset.surveys">
-            <div :class="'p-2 pb-1 border-b w-full hover:bg-gray-100 items-center cursor-pointer grid grid-cols-' + (cols+1)">
+            <div class="'p-2 pb-1 border-b w-full hover:bg-gray-100 items-center cursor-pointer grid grid-cols-6">
                 <template v-for="field in fields">
                     <div v-if="field!='_id' && schema[field].list">{{ schema[field].format(survey[field]) }}</div>
                 </template>

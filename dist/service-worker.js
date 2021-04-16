@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.297430748850e62bb675ccdae8050a98.js"
+  "/precache-manifest.a44b9cf5ed6214c4ae2b4a574ac38950.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "tsi-vue"});

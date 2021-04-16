@@ -1,7 +1,7 @@
 <template>
     <div v-if="persons" class="text-sm border shadow">
         <div class="w-full bg-gray-500 text-white p-1">{{ $attrs.filter.project }}</div>
-        <div :class="'p-2 pb-1 bg-gray-200 w-full grid grid-cols-' + (cols+1)">
+        <div class="p-2 pb-1 bg-gray-200 w-full grid grid-cols-7">
             <template v-for="field in fields">
                 <div v-if="schema[field].list" class="font-bold capitalize">
                     {{ field }}
@@ -9,7 +9,7 @@
             </template>
         </div>
             <template v-for="person in persons">
-                <div :class="'p-2 pb-1 border-b w-full hover:bg-gray-100 items-center cursor-pointer grid grid-cols-' + (cols+1)">
+                <div class="p-2 pb-1 border-b w-full hover:bg-gray-100 items-center cursor-pointer grid grid-cols-7">
                     <template v-for="field in fields">
                         <div v-if="field!='_id' && schema[field].list">{{ schema[field].format(person[field]) }}</div>
                     </template>
