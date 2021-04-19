@@ -9,7 +9,8 @@
                 
                 <div :class="schema[field].type==='text'?'col-span-2':''" class="flex flex-col" v-if="schema[field].tab===tab && schema[field].type!='boolean'">
                     <label class="font-bold capitalize">{{schema[field].label}}</label>
-                    <input v-if="schema[field].tab===tab && schema[field].type==='string'" type="text" class="w-full" v-model="record[field]" @input="$emit($event.target.value)"/>
+                    
+                    <input v-if="schema[field].tab===tab && schema[field].type==='string'" type="text" class="w-full" v-model="record[field]" @input="$emit($event.target.value)" :readonly="schema[field].readonly"/>
 
                     <input v-if="schema[field].tab===tab && schema[field].type==='number'" type="number" min="1" class="w-full" v-model="record[field]" @input="$emit($event.target.value)"/>
                     
@@ -17,23 +18,29 @@
 
                     <div v-if="schema[field].tab===tab && schema[field].type==='text'" >
                        
-                        <v-editor class="w-full" v-if="schema[field].type==='text'" v-model="$attrs.value.description"/>
+                        <v-editor class="w-full" v-if="schema[field].type==='text'" v-model="record[field]"/>
 
                     </div>
                     
                     
                     <div v-if="schema[field].tab===tab && schema[field].type==='array'">
-                        <template v-for="(option,index) in $attrs.value[field]">
+                        <draggable>
+                        <template v-for="(option,index) in record[field]">
                             <div class="flex flex-row">
-                                <input type="text" :value="option" class="w-full" @input="updateArray(index,field,$event.target.value)"/> <i class="material-icons ml-2" @click="removeOption(index,field)">delete</i>
+                                <input type="text" class="w-full" v-model="record[field][index]"/> <i class="material-icons ml-2" @click="removeOption(index,field)">delete</i>
+                                <i class="material-icons ml-2 text-base text-gray-400 cursor-move">open_with</i>
                             </div>
                         </template>
-                        <input class="mr-2" type="text" v-model="newOption[field]"/><button @click="addOption(field)">Aggiungi</button>
+                        </draggable>
+                        <div class="flex flex-row items-center mt-4 p-1 bg-gray-100">
+                            <input class="mr-2" type="text" v-model="newOption[field]"/>
+                            <button @click="addOption(field)">Aggiungi</button>
+                        </div>
                     </div>
 
                     
                     <div v-if="schema[field].tab===tab && schema[field].type==='date'">
-                        <input type="text" :value="dateField(field,$attrs.value[field])" @blur="updateField(field,$event.target.value)" class="w-24"/>
+                        <input type="text" :value="record[field]" class="w-24"/>
                     </div>
                 </div>
                 <div v-if="schema[field].tab===tab && schema[field].type==='boolean'" class="flex flex-row justify-start">
@@ -52,7 +59,7 @@
                 @close="editor=!editor">
                 <div slot="title">Editor</div>
                 <div slot="content">
-                    <v-editor v-model="$attrs.value.description"/>
+                    <v-editor v-model="record.description"/>
                 </div>
             </moka-modal>
         </transition>
@@ -63,14 +70,17 @@
 import schema from '@/components/plugins/tsi/admin/schema.js'
 import VEditor from '@/components/ui/moka.text.editor'
 import SurveyQuestions from './survey.questions'
+import draggable from 'vuedraggable'
+
 export default {
     name: 'TSISurveyAdmin',
-    components: { VEditor , SurveyQuestions },
+    components: { VEditor , SurveyQuestions , draggable },
     props: ['data'],
     data:()=>({
         editor: false,
         tab: 0,
         record: {},
+        currentField:null,
         domande: null,
         editDomande: false,
         total: 0,
@@ -80,6 +90,11 @@ export default {
     computed:{
         schema(){
             return schema.questionario
+        }
+    },
+    watch:{
+        newOption(v){
+           return null
         }
     },
     methods:{
@@ -98,22 +113,29 @@ export default {
             this.$attrs.value[field] = data
        },
         addOption ( field ){
-            this.$attrs.value[field].push ( this.newOption[field] )
+            this.record[field].push ( this.newOption[field] )
+            this.newOption[field]=''
+            console.log ( this.record[field] )
         },
         removeOption ( index , field ){
             console.log ( index , field )
             this.$attrs.value[field].splice ( index , 1 )
         },
         getDomande(){
-            this.$api.service('questions').find ( {
-                query: {
-                    id: this.$attrs.value.id
-                }
-            }).then ( res => {
-                //this.total = Object.keys(res.data[0].questions).length
-                this.domande = res.data[0] 
-                this.total = Object.keys(this.domande.questions).length 
-            })
+            if ( this.$attrs.value.id ){
+                this.$api.service('questions').find ( {
+                    query: {
+                        id: this.$attrs.value.id
+                    }
+                }).then ( res => {
+                    //this.total = Object.keys(res.data[0].questions).length
+                    this.domande = res.data[0] 
+                    this.total = Object.keys(this.domande.questions).length 
+                })
+            } else {
+                this.domande = []
+                this.total = 0
+            }
         },
     },
     mounted(){

@@ -273,6 +273,10 @@ export default {
         return 'moka-' + Math.random().toString(36).substr(2, 5)
     }
 
+    Vue.prototype.$randomKey = (length=6) => {
+        return Math.random().toString(16).substr(2, length);
+    }
+
     Vue.prototype.$debounce = (callback, duration) => {
         var timer;
         return function(event) {

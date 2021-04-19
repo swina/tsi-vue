@@ -2,7 +2,12 @@
 
 @tailwind components;
 
-body {
+@tailwind utilities;
+
+@layer utilities {
+ 
+
+  body {
     font-family: 'Asap Condensed', sans-serif;
     font-size:1.2rem;
     @apply leading-6 overflow-x-hidden;
@@ -252,14 +257,6 @@ pre {
 }
 
 
-
-
-
-
-@tailwind utilities;
-
-@layer utilities {
-  
 .modal {
   top:50%;
   left:50%;

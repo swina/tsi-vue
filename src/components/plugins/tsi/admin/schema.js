@@ -1,11 +1,13 @@
 
 const questionario = {
+        
         project : {
             label: 'progetto',
             type: 'string',
             edit: true,
             list: true,
             required: true,
+            readonly: false,
             default: '',
             tab:0,
             format: (value)=>{
@@ -18,11 +20,25 @@ const questionario = {
             edit: true,
             list: true,
             required: true,
+            readonly: false,
             default: '',
             tab:0,
             format: (value)=>{
-                return value.slice(-2) + '/' + value.substr(4,2) + '/' + value.substr(0,4)
+                return value //value.slice(-2) + '/' + value.substr(4,2) + '/' + value.substr(0,4)
             },
+        },
+        keycode : {
+            label: 'Chiave Accesso',
+            type: 'string',
+            edit: true,
+            list: true,
+            required: true,
+            readonly: true,
+            default: '',
+            tab:0,
+            format: (value)=>{
+                return value
+            }
         },
         coach: {
             label: 'coach',
@@ -30,6 +46,7 @@ const questionario = {
             edit: true,
             list: true,
             required: true,
+            readonly: false,
             default: '',
             tab:0,
             format: (value)=> { return value }
@@ -40,6 +57,7 @@ const questionario = {
             edit: true,
             list: true,
             required: true,
+            readonly: false,
             default: 10,
             tab:2,
             format: (value)=> {
@@ -52,6 +70,7 @@ const questionario = {
             edit: true,
             list: false,
             required: true,
+            readonly: false,
             default: 0,
             tab:2,
             format: (value)=>{
@@ -64,7 +83,21 @@ const questionario = {
             edit: true,
             list: false,
             required: false,
+            readonly: false,
             default: false,
+            tab:2,
+            format: (value)=>{
+                return parseInt(value)
+            }
+        },
+        answers_layout: {
+            label: 'Layout risposte in linea',
+            type: 'boolean',
+            edit: true,
+            list: false,
+            required: false,
+            readonly: false,
+            default: true,
             tab:2,
             format: (value)=>{
                 return parseInt(value)
@@ -76,6 +109,7 @@ const questionario = {
             edit: true,
             list: false,
             required: true,
+            readonly: false,
             default: '',
             tab:1,
             format: (value)=>{
@@ -88,6 +122,7 @@ const questionario = {
             edit: true,
             list: false,
             required: true,
+            readonly: false,
             default: null,
             tab:0,
             format: (value)=>{
@@ -254,10 +289,12 @@ const persons = {
     }
 }
 
+const answers = [ "in disaccordo" , "parzialmente in disaccordo", "nè d'accordo nè in disaccordo","parzialmente d'accordo","d'accordo",]
 const schema = {
     questionario : questionario ,
     persons: persons,
-    surveys: questionario
+    surveys: questionario,
+    answers: answers
 }
 
 export default schema 

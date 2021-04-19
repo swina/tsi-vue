@@ -1,33 +1,44 @@
 <template>
     <div v-if="domande">
         <div class="relative flex flex-col items-center md:items-start justify-center h-screen md:h-auto p-2 md:p-6 md:mt-6 lg:p-10 lg:mt-10 border rounded mx-1 md:mx-auto w-full md:w-10/12">
-            <div style="font-family:monospace" class="shadow fixed bg-black p-2 rounded-full text-lime-400 top-0 right-0 m-1 text-3xl font-mono">{{ elapsed }}</div>
-                <transition :name="transition" mode="out-in">
-                    <div class="grid grid-cols-1 items-center justify-center h-full" :key="animator">
-                    <template v-for="n in pagination">
-                        
-                        <div class="w-full">
-                            <div class="flex flex-row items-center">
-                                <div class="p-1 text-base bg-gray-200 rounded-full mr-3 h-8 w-8 text-center shadow">{{(n+((page-1)*pagination))}}</div> 
-                                <div class="text-xl font-bold leading-8">{{ domande.questions[(n+((page-1)*pagination))].domanda }}</div>
-                            </div>
-                            <div class="flex flex-col p-4 md:pl-10 mb-4">
-                                <template v-for="(risposta,r) in datastore.dataset.survey.answers">
-                                    
-                                    <div class="flex flex-row items-center text-base my-2">
-                                        <button class="flex flex-row items-center text-black bg-transparent border-0 hover:bg-transparent" @click="errore=null,setAnswer((n+((page-1)*pagination)),r+1)">
-                                        <i class="material-icons risposte text-3xl text-gray-500" :risposta="r+1" :class="'risposta_' + (n+((page-1)*pagination))">radio_button_unchecked</i>
-                                        <span class="ml-5 text-lg">{{ risposta }}</span>
-                                        </button>
-                                    </div>
-                                </template>
-                            </div>
+          
+            <div style="font-family:monospace" class="shadow fixed bg-black p-2 rounded-full text-lime-400 top-0 right-0 m-1 text-3xl font-mono" v-if="seconds < 300">{{ elapsed }}</div>
+                <div v-if="!layout" class="grid grid-cols-2">
+                        <div class="w-1/2"></div>
+                        <div class="grid items-center" :class="'grid-cols-' + datastore.dataset.survey.answers.length">
+                            <template v-for="a in datastore.dataset.survey.answers">
+                                <div class="flex text-sm items-center justify-center px-2 py-1">{{a}}</div>
+                            </template>
                         </div>
-                        
-                    </template>
-                </div>
+                    </div>
+                <transition :name="transition" mode="out-in">
+                    
+                    <div class="grid grid-cols-1 items-center w-full justify-center" :key="animator">
+                        <template v-for="(n) in parseInt(pagination)">
+    
+                            <div class="w-full items-center" :class="!layout ? 'grid grid-cols-2 justify-center border-b border-dashed ':''">
+                                <div class="flex flex-row items-center w-full">
+                                    <div class="flex flex-row justify-center items-center text-base bg-gray-200 rounded-full mr-3 h-8 w-8 text-center shadow">{{(n+((page-1)*pagination))}}</div> 
+                                    <div class="ml-2 text-xl font-bold leading-8">{{ domande.questions[(n+((page-1)*pagination))].domanda }}</div>
+                                </div>
+                                <div class="" :class="layout?'flex flex-col p-4 md:pl-10 mb-4':'py-4 mt-4 grid grid-cols-' + datastore.dataset.survey.answers.length">
+                                    <template v-for="(risposta,r) in datastore.dataset.survey.answers">
+                                        
+                                        <div class="flex flex-row items-center text-base my-2" :class="!layout?' justify-center':''">
+                                            <button class="flex flex-row items-center text-black bg-transparent border-0 hover:bg-transparent" @click="errore=null,setAnswer((n+((page-1)*pagination)),r+1)">
+                                            <i class="material-icons risposte text-3xl text-gray-500" :risposta="r+1" :class="'risposta_' + (n+((page-1)*pagination))">radio_button_unchecked</i>
+                                            <span class="ml-5 text-lg" v-if="layout">{{ risposta }}</span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                                
+                            </div>
+                            
+                        </template>
+                    </div>
                 </transition>
-            <button @click="next" class="m-auto mb-4 text-2xl">Procedi</button>
+            <button @click="next" class="mx-auto my-8 text-2xl">Procedi</button>
             <div :class="errore?'opacity-100':'opacity-0'" class="mt-2 bg-red-200 w-full p-1 h-8">{{ errore }}</div>
             <div :class="incompleto?'opacity-100':'opacity-0'" class="mt-2 bg-red-200 w-full p-1 h-8">
                 {{ incompleto }} 
@@ -52,6 +63,7 @@ export default {
         index: 0,
         pagination: 1,
         page: 1,
+        layout: false,
         timer: null,
         response:{},
         questionStart: 0,
@@ -68,6 +80,7 @@ export default {
             this.pagination = this.datastore.dataset.survey.pagination
             return this.datastore.dataset.survey.questions.data[0]
         },
+        
         elapsed(){
             // Pad to 2 or 3 digits, default is 2
             function pad(n, z) {
@@ -141,11 +154,13 @@ export default {
     mounted(){
         this.animator = this.$randomID()
         window.onresize = () =>{
-            if ( window.innerWidth < 800 ){
+            if ( window.innerWidth < 900 ){
                 this.pagination = 1
                 this.page = 1
+                this.layout = true
             } else {
                 this.pagination = this.datastore.dataset.survey.pagination
+                this.layout = this.datastore.dataset.survey.answers_layout
                 this.page = 1
             }
         }

@@ -142,6 +142,12 @@ export default {
         dropwdownMenu ( label ){
             this.submenu = label
         },
+        loadSurveys(){
+            this.$api.service ( 'surveys' ).find().then ( res => {
+                this.$store.dispatch ( 'dataset' , { table: 'surveys' , data: res.data } )
+            })
+            this.$store.dispatch ( 'dataset' , { table: 'schema' , data: schema } )
+        }
     },
     beforeMount(){
         !this.user.login ? this.$router.push('/') : null
@@ -150,6 +156,10 @@ export default {
             this.$store.dispatch ( 'dataset' , { table: 'surveys' , data: res.data } )
         })
         this.$store.dispatch ( 'dataset' , { table: 'schema' , data: schema } )
+
+        this.$api.service ( 'surveys' ).on ( 'created' , data => { this.loadSurveys() })
+        this.$api.service ( 'surveys' ).on ( 'deleted' , data => { this.loadSurveys() })
+        
     }
 }
 </script>
