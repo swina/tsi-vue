@@ -15,6 +15,7 @@
                 <div class="flex flex-row text-xl justify-end items-center">
                     <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300" name="edit" @click="record=survey,edit=!edit" title="Modifica"/>
                     <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300 mx-2" name="people" @click="record=survey,tab('persons')" title="Utenti"/>
+                    <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300 mr-2" name="file_download" @click="record=survey,download(),confirmDownload=!confirmDownload" title="Scarica Questionari"/>
                     <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300" name="launch" @click="simulator(survey._id)" title="Test"/>
                 </div>
             </div>
@@ -31,6 +32,23 @@
                     @click_1="save">
                     <div slot="title">{{ record.project }}</div>
                     <survey-admin slot="content" v-if="edit" v-model="record"/>
+                </moka-modal>
+                <moka-modal
+                    size="sm"
+                    position="modal"
+                    v-if="confirmDownload"
+                    buttons="none"
+                    @close="confirmDownload=!confirmDownload"
+                    @click_0="confirmDownload=!confirmDownload"
+                    @click_1="download">
+                    <div slot="title">Download</div>
+                    <div slot="content" class="h-28 items-center text-center relative cursor-pointer" @click="downloadCSV">
+                        <div class="absolute bg-gray-600 text-white w-full top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center">
+                            <icon name="file_download">
+                            </icon>
+                            <div class="btn-download">Download</div>
+                        </div> 
+                    </div>
                 </moka-modal>
                 <!-- <moka-modal
                     v-if="persons"
@@ -51,7 +69,8 @@
 import { mapState } from 'vuex'
 import SurveyAdmin from './survey.admin'
 import SurveyPersons from './survey.persons'
-
+import jp from 'jsonpath'
+import { json2csv } from 'json-2-csv'
 export default {
     name: 'TSISurveysAdmin',
     components: { SurveyAdmin , SurveyPersons },
@@ -60,7 +79,8 @@ export default {
         fields: null,
         record: null,
         persons: false,
-        edit: false
+        edit: false,
+        confirmDownload: false,
     }),
     watch:{
         
@@ -133,6 +153,70 @@ export default {
             this.record.answers = this.datastore.dataset.schema.answers
 
             this.edit = true
+        },
+        downloadCSV(){
+            let el = document.querySelector('#download-csv')
+            el.click()
+            document.body.removeChild( el )
+            this.confirmDownload = false
+        },
+         download(){
+             let vm = this
+            this.$api.service('persons').find ( { query: { survey_id: vm.record._id }}).then ( res => {
+                let download = res.data.map ( person => {
+                    if ( person.hasOwnProperty('answers') ){
+                        let q = {}
+                        Object.keys(person.answers).map(a=>{
+                            return q[a] = person.answers[a].a
+                        })
+                        let t = {}
+                        Object.keys(person.answers).map(a=>{
+                            return t[a] = person.answers[a].t
+                        })
+                        return {
+                            person: person.firstname + ' ' + person.lastname ,
+                            email: person.email,
+                            date: new Intl.DateTimeFormat('it-IT').format(new Date(parseInt(person._id.substring(0, 8), 16) * 1000)),
+                            q: q, //answers,//jp.query(person.answers,'$..a'),
+                            t: t //jp.query(person.answers,'$..t')
+                        }
+                    }
+                })
+                function json2csvCallback (err, csv) {
+                    if (err) throw err;
+                    console.log(csv);
+                    var downloadLink = document.createElement("a");
+                    var blob = new Blob(["\ufeff", csv]);
+                    var url = URL.createObjectURL(blob);
+                    downloadLink.setAttribute('id','download-csv')
+                    downloadLink.href = url;
+                    downloadLink.download = vm.record.project + ".csv";  //Name the file here
+                    document.body.appendChild(downloadLink);
+                    document.querySelector('.btn-download').innerText = vm.record.project + '.csv'
+                    //downloadLink.click();
+                    //document.body.removeChild(downloadLink);
+                    //vm.confirmDownload = false
+                };
+
+                json2csv(download,json2csvCallback,{unwindArrays:false})
+                // var items = download;
+                // const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+                // const header = Object.keys(items[0]);
+                // let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+                // csv.unshift(header.join(','));
+                // csv = csv.join('\r\n');
+
+                // //Download the file as CSV
+                // var downloadLink = document.createElement("a");
+                // var blob = new Blob(["\ufeff", csv]);
+                // var url = URL.createObjectURL(blob);
+                // downloadLink.href = url;
+                // downloadLink.download = "DataDump.csv";  //Name the file here
+                // document.body.appendChild(downloadLink);
+                // downloadLink.click();
+                // document.body.removeChild(downloadLink);
+                console.log ( download )
+            })
         }
     },
     beforeMount(){

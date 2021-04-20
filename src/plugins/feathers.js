@@ -11,7 +11,7 @@ import io from 'socket.io-client'
 //   }
 // )
 
-const socket = io( 'https://tsi-surveys.herokuapp.com/' , //http://localhost:3031' ,
+const socket = io(  'https://tsi-surveys.herokuapp.com/' , //'http://localhost:3031' ,
    {
      transports: ['websocket'],
      polling: {

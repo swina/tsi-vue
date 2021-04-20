@@ -80,6 +80,7 @@ export default {
                 this.$message ( msg )
             } else {
                 this.person.survey_id = this.$mapState().datastore.dataset.survey._id
+                this.$store.dispatch('dataset',{ table: 'person' , data: this.person })
                 this.$emit ( 'person' , this.person )
             }
         }

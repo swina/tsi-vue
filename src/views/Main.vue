@@ -2,10 +2,10 @@
   <div class="bg-gray-400 min-h-screen h-screen flex flex-col justify-center items-center bg-center bg-cover bg-no-repat" style="background-image:url(https://res.cloudinary.com/moodgiver/image/upload/v1614180176/smartphone-925758_1280_zl87ir.jpg)">
     <div class="m-auto w-64">
        
-      <div class="m-auto text-center font-thin bg-white bg-opacity-75 p-2 rounded shadow" @click="$router.push('desktop')">
+      <div class="m-auto text-center font-thin bg-white bg-opacity-75 p-2 rounded shadow">
         <img src="https://mk0wwwindualitpb534w.kinstacdn.com/wp-content/uploads/2021/02/Logo-Dual-default.png" class="w-64 m-auto grayscale"/>
         <div class="text-gray-300 bg-gray-600 text-xl text-center font-hairline">TSI Manager</div>
-        <button class="my-4 mx-auto text-xl rounded" @click="$router.push('desktop')" v-if="!login">Gestione</button>
+        <button class="my-4 mx-auto text-xl rounded" @click="$router.push('/desktop')" v-if="!login">Gestione</button>
       </div>
     </div>
         <div v-if="login" class="z-1 fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50"></div>
@@ -21,7 +21,7 @@
                </div> 
             </div>
     </transition>
-    <div class="absolute bottom-0 right-0 m-3 text-gray-500 flex flex-row items-center" @click="$router.push('/desktop')">
+    <div class="absolute bottom-0 right-0 m-3 text-gray-500 flex flex-row items-center">
       <i class="material-icons text-gray-500 mr-2" v-if="!login">lock</i>
       <!-- <span class="text-sm" v-if="user && !login">Utente: {{ user.user.user.email }}</span>
       <span class="text-sm" v-else>User: Guest</span> -->

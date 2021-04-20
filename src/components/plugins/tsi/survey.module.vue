@@ -78,9 +78,12 @@ export default {
         ...mapState ( ['datastore'] ),
         domande(){
             this.pagination = this.datastore.dataset.survey.pagination
+            this.questionStart = this.seconds
             return this.datastore.dataset.survey.questions.data[0]
         },
-        
+        total(){
+            return Object.keys(this.domande.questions).length
+        },
         elapsed(){
             // Pad to 2 or 3 digits, default is 2
             function pad(n, z) {
@@ -107,7 +110,7 @@ export default {
           if ( v ){
               this.start()
           }
-      }
+      },
     },
     methods: {
         start(){
@@ -143,11 +146,15 @@ export default {
             this.animator = this.$randomID()
             window.sessionStorage.setItem('tsi',JSON.stringify(this.response))
             this.questionStart = this.seconds
-            this.page += 1
-            let elements = document.querySelectorAll('.risposte')
-            elements.forEach ( el => { el.innerText = 'radio_button_unchecked' })
-            
-            window.scrollTo(0,0)
+            if ( risposte < this.total ){
+                this.page += 1
+                let elements = document.querySelectorAll('.risposte')
+                elements.forEach ( el => { el.innerText = 'radio_button_unchecked' })
+                window.scrollTo(0,0)
+            } else {
+                this.datastore.dataset.person.answers = this.response
+                this.$emit('end')
+            }
             
         },
     },
