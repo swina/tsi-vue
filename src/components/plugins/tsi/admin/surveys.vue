@@ -1,9 +1,9 @@
 <template>
-    <div class="text-sm w-full m-auto border shadow">
+    <div class="text-sm w-full m-auto border shadow" :key="viewKey">
         <button @click="createNew()">Crea</button>
         <div :class="'bg-gray-500 text-gray-200 p-2 pb-1 items-center justify-center grid grid-cols-' + (cols+1)">
             <template v-for="field in fields">
-                <div v-if="field!='_id' && schema[field].list" class="capitalize">{{ field  }}</div>
+                <div v-if="field!='_id' && schema[field].list" class="capitalize">{{ schema[field].label.split(' ')[0]  }}</div>
             </template>
             <div class=""></div>
         </div>
@@ -12,14 +12,18 @@
                 <template v-for="field in fields">
                     <div v-if="field!='_id' && schema[field].list">{{ schema[field].format(survey[field]) }}</div>
                 </template>
-                <div class="flex flex-row text-xl justify-end items-center">
-                    <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300" name="edit" @click="record=survey,edit=!edit" title="Modifica"/>
-                    <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300 mx-2" name="people" @click="record=survey,tab('persons')" title="Utenti"/>
-                    <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300 mr-2" name="file_download" @click="record=survey,download(),confirmDownload=!confirmDownload" title="Scarica Questionari"/>
-                    <icon class="border rounded h-8 w-8 text-center hover:bg-blue-300" name="launch" @click="simulator(survey._id)" title="Test"/>
+                <div class="flex flex-row justify-around items-center">
+                    <icon class="text-base hover:text-blue-300" name="edit" @click="record=survey,edit=!edit" title="Modifica"/>
+                    <icon class="text-base hover:text-blue-300" name="file_copy" @click="record=survey,clone()" title="Clona Questionario"/>
+                    <icon class="text-base hover:text-blue-300" name="people" @click="record=survey,tab('persons')" title="Utenti"/>
+                    <icon class="text-base hover:text-blue-300" name="file_download" @click="record=survey,download(),confirmDownload=!confirmDownload" title="Scarica Questionari"/>
+                    <icon class="text-base hover:text-blue-300" name="launch" @click="simulator(survey._id)" title="Test"/>
+                    <icon class="text-base hover:text-blue-300" name="delete" @click="record=survey,removeSurvey=!removeSurvey" title="Elimina"/>
                 </div>
             </div>
         </template>
+
+        
 
         <transition name="fade">
             <div>
@@ -61,6 +65,22 @@
                 </moka-modal> -->
             </div>
         </transition>
+        <transition name="fade">
+            <moka-modal
+                v-if="removeSurvey"
+                size="sm"
+                position="modal"
+                @close="removeSurvey=!removeSurvey"
+                @click_0="removeSurvey=!removeSurvey"
+                @click_1="deleteSurvey()">
+                <div slot="title">Elimina Questionario</div>
+                <div slot="content">
+                    <div class="h-40 items-center p-6">
+                        Confermi di voler eliminare<br>{{ record.project }}
+                    </div>
+                </div>
+            </moka-modal>
+        </transition>
     </div>
 </template>
 
@@ -75,12 +95,14 @@ export default {
     name: 'TSISurveysAdmin',
     components: { SurveyAdmin , SurveyPersons },
     data:()=>({
+        viewKey: null,
         schema: null,
         fields: null,
         record: null,
         persons: false,
         edit: false,
         confirmDownload: false,
+        removeSurvey: false
     }),
     watch:{
         
@@ -115,7 +137,7 @@ export default {
         create(){
             this.record.keycode = this.$randomKey()
             this.$api.service('surveys').create ( this.record ).then ( survey => {
-                let _id = survey._id
+                var _id = survey._id
                 //this.datastore.dataset.surveys.push ( survey )
                 this.$api.service('surveys_keys').create ( {
                     key: survey.keycode ,
@@ -128,6 +150,76 @@ export default {
                         this.$message ( 'Creato nuovo questionario' )
                     })
                 })
+            })
+        },
+        clone(){
+            let survey = Object.assign({},this.record)
+            survey.keycode = this.$randomKey()
+            survey.project = this.record.project + ' COPIA'
+            let questions
+            delete survey._id
+            this.$api.service('questions').find ( { query : { id: this.record._id} } ).then ( result => {
+                questions = result.data[0]
+                console.log ( survey )
+                console.log ( questions )
+                var survey_id 
+                this.$api.service ( 'surveys' ).create ( survey ).then ( response => {
+                    this.datastore.dataset.surveys.push ( response )
+                    survey_id = response._id
+                    this.$api.service ( 'surveys_keys' ).create ( 
+                        {
+                            key: survey.keycode,
+                            survey: survey_id
+                        }
+                        
+                    ).then ( (response) => {
+                        this.$api.service ( 'questions' ).create (
+                            {
+                                id: survey_id,
+                                questions : questions.questions
+                            }
+                        ).then ((resp)=> {
+                            console.log ( resp , )
+                            this.$message ( 'Questionarion clonato' )
+                            this.viewKey = this.$randomID()
+                        })
+                    })
+                })
+            })
+            
+        },
+        deleteSurvey(){
+            this.$api.service ( 'surveys' ).remove ( this.record._id ).then ( resp => {
+                let surveys = this.datastore.dataset.surveys.filter ( surv => {
+                    return surv._id != resp._id
+                })
+                this.$store.dispatch ( 'dataset' , { table: 'surveys' , data: surveys } )
+                this.$api.service ( 'questions' ).find ( {
+                    query: {
+                         id: this.record._id
+                    }
+                }).then ( quest => {
+                    console.log ( quest , this.record._id)
+                    this.$api.service ( 'questions' ).remove ( quest.data[0]._id )
+                })
+                this.$message ( 'Questionario rimosso' )
+                this.removeSurvey = false
+                //remove survey key
+                // this.$api.service ( 'surveys_keys' ).find ( {
+                //     query: {
+                //         id: resp._id
+                //     }
+                // }).then ( key => {
+                //     this.$api.service ( 'surveys_keys' ).remove ( key._id )
+                //     //remove questions
+                //     this.$api.service ( 'questions' ).find ( {
+                //     query: {
+                //         id: key._id
+                //     }
+                //     }).then ( quest => {
+                //         this.$api.service ( 'questions' ).remove ( quest._id )
+                //     })
+                // })
             })
         },
         tab(name){
@@ -220,6 +312,7 @@ export default {
         }
     },
     beforeMount(){
+        this.viewKey = this.$randomID()
         this.fields = Object.keys(this.datastore.dataset.schema.surveys)
         this.schema = this.datastore.dataset.schema.surveys
     }

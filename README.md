@@ -6,6 +6,11 @@
 
 ## Latest updates  
 
+### 23.04.2021
+- clonazione questionario
+- rimuovi questionario
+- minor fixes
+
 ### 20.04.2021
 - rimozione utenti
 - registrazione questionario utente
