@@ -8,7 +8,7 @@
                 <button class="bg-lime-700 rounded text-2xl m-auto" @click="status='survey'">Procedi</button>
             </div>
             <tsi-survey-module v-if="status==='survey'" @end="register"/>
-            <div v-if="status==='end'">Grazie per aver partecipato al questionario</div>
+            <div v-if="status==='end'" v-html="survey.resume"></div>
         </div>
     </div>
 </template>

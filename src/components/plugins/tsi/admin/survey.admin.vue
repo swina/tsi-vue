@@ -4,6 +4,7 @@
         <button :class="tab===2?'bg-blue-400':''" @click="tab=2">Risposte</button>
         <button :class="tab===3?'bg-blue-400':''" @click="tab=3">Domande</button>
         <button :class="tab===1?'bg-blue-400':''" @click="tab=1">Descrizione</button>
+        <button :class="tab===4?'bg-blue-400':''" @click="tab=4">Resume</button>
         <div class="grid grid-cols-2 gap-4 p-8 border rounded" v-if="schema">
             <template v-for="field in Object.keys(schema)">
                 
@@ -17,10 +18,10 @@
                     <textarea v-if="schema[field].type==='excerpt'" class="w-full" v-model="record[field]"/>
 
                     <div v-if="schema[field].tab===tab && schema[field].type==='text'" >
-                       
                         <v-editor class="w-full" v-if="schema[field].type==='text'" v-model="record[field]"/>
-
                     </div>
+
+
                     
                     
                     <div v-if="schema[field].tab===tab && schema[field].type==='array'">

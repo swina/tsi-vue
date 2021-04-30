@@ -6,6 +6,11 @@
 
 ## Latest updates  
 
+### 30.04.2021
+- modifica quesiti
+- fixed fine questionario
+- aggiunto resume per questionario
+
 ### 23.04.2021
 - clonazione questionario
 - rimuovi questionario

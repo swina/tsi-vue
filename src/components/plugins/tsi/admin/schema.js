@@ -116,6 +116,19 @@ const questionario = {
                 return value.substring(0,25)
             }
         },
+        resume: {
+            label: 'fine questionario',
+            type: 'text',
+            edit: true,
+            list: false,
+            required: true,
+            readonly: false,
+            default: '',
+            tab:4,
+            format: (value)=>{
+                return value.substring(0,25)
+            }
+        },
         notes: {
             label: 'note',
             type: 'excerpt',

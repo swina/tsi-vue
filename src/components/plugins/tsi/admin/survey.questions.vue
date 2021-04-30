@@ -4,13 +4,24 @@
             <div class="flex flex-row mb-1 items-center" v-if="i >= start && i < (start+limit)">
                 <div class="w-10 text-right text-lg bg-gray-200 pr-2 mr-2 p-1">{{ question }}</div>
                 <input type="text" class="bg-white w-9/12 p-1r" v-model="questions[question].domanda" style="font-family:'Arial'"/>
-                <div class="w-2/12 p-1 text-gray-500"><i class="material-icons">delete</i></div>
+                <div class="w-2/12 p-1 text-gray-500 cursor-pointer">
+                    <i class="material-icons" @click="saveQuestions()" title="Salva">save</i>
+                    <!--<i class="material-icons" @click="removeQuestion(i)">delete</i>-->
+                </div>
             </div>
         </template> 
         <div v-if="Object.keys(questions).length" class="w-full flex flex-row items-center p-2 justify-center">
             <button class="rounded-bl rounded-tl" @click="start > 0 ? start=start-limit : null"><i class="material-icons">chevron_left</i></button>
             <button class="rounded-tr rounded-br" @click="(start+limit) < total ? start=start+limit : null"><i class="material-icons">chevron_right</i></button>
+            
         </div>
+        <!-- <div>
+            Aggiungi quesito
+            Nr <input type="number" class="w-12" :value="total+1"/>
+            Quesito
+            <textarea v-model="newQuestion"/>
+            <button class="success" @click="addQuestion()">Aggiungi</button>
+        </div> -->
         <div class="w-full flex flex-row items-center p-2 justify-center relative">
             <div v-if="!Object.keys(questions).length" class="relative w-full bg-gray-100 border-4 border-dashed border-gray-300 h-64 flex flex-col items-center justify-center" @click="checkImport=true">
                 <input v-if="!questions.length" type="file" class="w-full absolute top-0 left-0 right-0 bottom-0 opacity-0" @change="loadTextFromFile"/>
@@ -79,6 +90,7 @@ export default {
         importFields: {},
         checkImport: false,
         create: false,
+        newQuestion: '',
         json: {}
     }),
     computed: {
@@ -88,9 +100,20 @@ export default {
         }
     },
     methods: {
-        save(){
-            return
-            this.$api.service ( 'questions' ).update ( this.questions )
+        saveQuestions(){
+            let id = this.datastore.dataset.questions._id
+            this.$api.service ( 'questions' ).patch ( id , 
+                {
+                    questions: this.questions 
+                }
+            ).then ( res => {
+                this.$message ( 'Quesiti aggiornati' )
+            })
+        },
+        addQuestion(){
+            let obj = {}
+            this.questions[this.total+1] = { domanda: this.newQuestion }
+            this.$store.dispatch ( 'dataset' , { table: 'questions' , data : this.questions } )
         },
         loadTextFromFile(ev){
             this.checkImport = false
@@ -136,13 +159,13 @@ export default {
                     id: this.$attrs.survey
                 }
             }).then ( result => {
-                this.$store.dispatch ( 'dataset' , { table: 'questions' , data : result.data[0].questions })
+                this.$store.dispatch ( 'dataset' , { table: 'questions' , data : result.data[0] })
                 this.questions = result.data[0].questions
                 //this.total = Object.keys(this.questions).length
             })
         } else {
             if ( this.datastore.dataset.questions ){
-                this.questions = this.datastore.dataset.questions 
+                this.questions = this.datastore.dataset.questions.questions 
             } else {
                 this.questions = []
             }

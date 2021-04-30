@@ -16,7 +16,7 @@ export default {
     name: 'TSISurveyAccess',
     components: { VSurvey },
     data:()=>({
-        survey_key: 'a763va',
+        survey_key: '',
         survey: false
     }),
     methods: {

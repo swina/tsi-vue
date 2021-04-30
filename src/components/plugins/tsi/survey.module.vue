@@ -15,8 +15,8 @@
                     
                     <div class="grid grid-cols-1 items-center w-full justify-center" :key="animator">
                         <template v-for="(n) in parseInt(pagination)">
-    
-                            <div class="w-full items-center" :class="!layout ? 'grid grid-cols-2 justify-center border-b border-dashed ':''">
+
+                            <div v-if="domande.questions.hasOwnProperty(n+((page-1)*pagination))"  class="w-full items-center" :class="!layout ? 'grid grid-cols-2 justify-center border-b border-dashed ':''">
                                 <div class="flex flex-row items-center w-full">
                                     <div class="flex flex-row justify-center items-center text-base bg-gray-200 rounded-full mr-3 h-8 w-8 text-center shadow">{{(n+((page-1)*pagination))}}</div> 
                                     <div class="ml-2 text-xl font-bold leading-8">{{ domande.questions[(n+((page-1)*pagination))].domanda }}</div>
@@ -63,6 +63,7 @@ export default {
         index: 0,
         pagination: 1,
         page: 1,
+        
         layout: false,
         timer: null,
         response:{},
@@ -83,6 +84,9 @@ export default {
         },
         total(){
             return Object.keys(this.domande.questions).length
+        },
+        pages(){
+            return parseInt(Object.keys(this.domande.questions).length % this.pagination)
         },
         elapsed(){
             // Pad to 2 or 3 digits, default is 2
@@ -139,7 +143,7 @@ export default {
         next(){
             
             let risposte = Object.keys ( this.response).length
-            if ( risposte < ( this.page*this.pagination) ){
+            if ( risposte < ( this.page*this.pagination) && risposte < this.total ){
                 this.$message ( 'Tutte le domande richiedono almeno una risposta')
                 return 
             }
@@ -172,6 +176,9 @@ export default {
             }
         }
         this.seconds = this.datastore.dataset.survey.timeout * 60
+        if ( this.$route.query.page ){
+            this.page = this.$route.query.page
+        }
         this.start()
     },
     beforeDestroy(){
