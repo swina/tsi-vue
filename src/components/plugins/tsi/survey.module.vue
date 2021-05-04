@@ -38,14 +38,14 @@
                         </template>
                     </div>
                 </transition>
+            <button v-if="lastPage && page > 1" @click="page--,lastPage=null" class="absolute bottom-0 left-0 m-4 text-2xl"><icon name="chevron_left"/></button>    
             <button @click="next" class="mx-auto my-8 text-2xl">Procedi</button>
             <div :class="errore?'opacity-100':'opacity-0'" class="mt-2 bg-red-200 w-full p-1 h-8">{{ errore }}</div>
             <div :class="incompleto?'opacity-100':'opacity-0'" class="mt-2 bg-red-200 w-full p-1 h-8">
                 {{ incompleto }} 
-                <button class="danger" @click="risposte= {},incompleto='',simulation=!simulation">Esci</button>
+                <button class="danger" @click="risposte= {},incompleto=''">Esci</button>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -62,8 +62,9 @@ export default {
         seconds: 0,
         index: 0,
         pagination: 1,
+        lastPage: null,
+        goToLastPage: null,
         page: 1,
-        
         layout: false,
         timer: null,
         response:{},
@@ -79,7 +80,7 @@ export default {
         ...mapState ( ['datastore'] ),
         domande(){
             this.pagination = this.datastore.dataset.survey.pagination
-            this.questionStart = this.seconds
+            //this.questionStart = this.seconds
             return this.datastore.dataset.survey.questions.data[0]
         },
         total(){
@@ -108,7 +109,7 @@ export default {
     watch:{
       page(v){
           this.transition = 'next'
-          this.questionStart = this.seconds
+          //this.questionStart = this.seconds
       },
       started(v){
           if ( v ){
@@ -119,6 +120,7 @@ export default {
     methods: {
         start(){
             let vm = this
+            this.questionStart = this.seconds
             window.setInterval(()=>{
                 vm.seconds--
             },1000)
@@ -133,6 +135,7 @@ export default {
                     el.innerText = 'radio_button_unchecked'
                 }
             })
+            
             this.response[quest] = {
                 a: parseInt(response),
                 t: this.questionStart - this.seconds
@@ -149,12 +152,13 @@ export default {
             }
             this.animator = this.$randomID()
             window.sessionStorage.setItem('tsi',JSON.stringify(this.response))
-            this.questionStart = this.seconds
             if ( risposte < this.total ){
+                this.lastPage = this.page
                 this.page += 1
                 let elements = document.querySelectorAll('.risposte')
                 elements.forEach ( el => { el.innerText = 'radio_button_unchecked' })
                 window.scrollTo(0,0)
+                this.questionStart = this.seconds
             } else {
                 this.datastore.dataset.person.answers = this.response
                 this.$emit('end')
@@ -178,8 +182,20 @@ export default {
         this.seconds = this.datastore.dataset.survey.timeout * 60
         if ( this.$route.query.page ){
             this.page = this.$route.query.page
+            
         }
         this.start()
+        let vm = this
+        window.addEventListener('beforeunload', function (e) {
+  
+            // Check if all the answers has been filled
+            let risposte = Object.keys ( vm.response).length
+            if ( risposte < vm.total ){
+                vm.$message ( 'Stai lasciando il questionario senza completarlo ')
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
     },
     beforeDestroy(){
         window.clearInterval()

@@ -8,7 +8,7 @@
                 <button class="bg-lime-700 rounded text-2xl m-auto" @click="status='survey'">Procedi</button>
             </div>
             <tsi-survey-module v-if="status==='survey'" @end="register"/>
-            <div v-if="status==='end'" v-html="survey.resume"></div>
+            <div class="md:mx-20 lg:mx-48"  v-if="status==='end'" v-html="survey.resume"></div>
         </div>
     </div>
 </template>
@@ -43,18 +43,7 @@ export default {
         }
     },
     mounted(){
-        let vm = this
-        window.addEventListener('beforeunload', 
-                                function (e) {
-  
-            // Check if any of the input
-            // fields are filled
-            
-            vm.$message ( 'Stai lasciando il questionario senza completarlo ')
-            e.preventDefault();
-            e.returnValue = '';
-            
-        });
+        
     }
 }
 </script>

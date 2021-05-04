@@ -27,17 +27,17 @@ export default {
         fields: null,
         selections: null,
         person:{
-            "firstname": "ROSSI",
-            "lastname": "MARIO",
-            "email": "rossi.mario@example.com",
-            "age": "60",
-            "country": "ITALY",
-            "gender": "M",
-            "education": "Scuola superiore",
-            "phone": "1232312322123",
-            "industry": "Altro",
-            "function": "Engineering",
-            "role": "Consulente"
+            "firstname": "",
+            "lastname": "",
+            "email": "",
+            "age": "",
+            "country": "",
+            "gender": "",
+            "education": "",
+            "phone": "",
+            "industry": "",
+            "function": "",
+            "role": ""
         }
     }),
     computed:{
