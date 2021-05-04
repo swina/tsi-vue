@@ -6,6 +6,11 @@
 
 ## Latest updates  
 
+### 04.05.2021
+- rimosso dati registrazione di prova
+- sistemato timer answer
+- aggiunto vai a pagina precedente
+
 ### 30.04.2021
 - modifica quesiti
 - fixed fine questionario
