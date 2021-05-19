@@ -254,7 +254,7 @@ export default {
         },
          download(){
              let vm = this
-            this.$api.service('persons').find ( { query: { survey_id: vm.record._id }}).then ( res => {
+            this.$api.service('persons').find ( { query: { $limit: 200, survey_id: vm.record._id }}).then ( res => {
                 let download = res.data.map ( person => {
                     if ( person.hasOwnProperty('answers') ){
                         let q = {}
