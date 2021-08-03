@@ -16,7 +16,7 @@
     "buffer-to-data-url": "1.0.0",
     "core-js": "^3.6.5",
     "json-2-csv": "^3.10.3",
-    "jsonpath": "^1.1.0",
+    "jsonpath": "^1.1.1",
     "quill-image-drop-module": "^1.0.3",
     "quill-image-extend-module": "^1.1.2",
     "quill-image-resize-module": "^3.0.0",
