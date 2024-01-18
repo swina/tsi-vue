@@ -14,7 +14,7 @@
     "alloyfinger": "^0.1.16",
     "axios": "^1.6.4",
     "buffer-to-data-url": "1.0.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.15.2",
     "json-2-csv": "^3.10.3",
     "jsonpath": "^1.1.0",
     "quill-image-drop-module": "^1.0.3",
